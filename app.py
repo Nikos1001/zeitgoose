@@ -123,7 +123,6 @@ article_categories = [
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
     if request.method == 'POST':
-        username = session['username']
         title = request.form['title'].strip()
         content = request.form['content']
         category = request.form['category']
@@ -137,11 +136,13 @@ def edit():
             error = 'Cannot have empty title'
         if content.strip() == '':
             error = 'Article cannot be empty' 
-        if users.find_one({'username': username}) == None:
+        if 'username' not in session or users.find_one({'username': session['username']}) == None:
             error = 'Please login before posting'
         
         if error != None:
             return render_template('edit.html', article_categories=article_categories, error=error, guidelines_url=secrets['GUIDELINES_URL'])
+
+        username = session['username']
 
         id = articles.insert_one({
             'author': username,
