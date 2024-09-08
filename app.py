@@ -129,7 +129,7 @@ def edit():
             error = 'Please login before posting'
         
         if error != None:
-            return render_template('edit.html', article_categories=article_categories, error=error)
+            return render_template('edit.html', article_categories=article_categories, error=error, guidelines_url=secrets['GUIDELINES_URL'])
 
         id = articles.insert_one({
             'author': username,
@@ -143,7 +143,7 @@ def edit():
 
         return redirect(url_for('article', id=id, confirm_submit=True)) 
 
-    return render_template('edit.html', article_categories=article_categories)
+    return render_template('edit.html', article_categories=article_categories, guidelines_url=secrets['GUIDELINES_URL'])
 
 def format_time(time):
     return datetime.datetime.fromtimestamp(time, datetime.timezone(datetime.timedelta(hours=5))).strftime('%m/%d/%Y')

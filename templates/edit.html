@@ -2,6 +2,7 @@
     <head>
         <title>Edit post</title>
         <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <link rel="icon" href="{{url_for('static', filename='logo.png')}}">
         <style>
             body {
                 display: grid;
@@ -88,7 +89,7 @@ You can use markdown to format your post"></textarea>
                         <option value="{{category}}">{{category}}</option>
                     {% endfor %}
                 </select><br><br>
-                Before posting, please make sure your post follows <a href="{{url_for('guidelines')}}">our guidelines</a>.
+                Before posting, please make sure your post follows <a href="{{guidelines_url}}">our guidelines</a>.
                 TL;DR don't spam, be nice, no politics. All posts are manually reviewed by yours truly before 
                 they're published to the news feed <3<br><br> 
                 <input type="submit" value="Submit" id="submit">
