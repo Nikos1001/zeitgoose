@@ -33,6 +33,10 @@ def home():
     username = session['username'] if 'username' in session else None
     return render_template('home.html', articles=articles.find({'status': 'approved'}).sort('time', -1), username=username)
 
+def is_username_valid(username):
+    ok = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_'
+    return all(c in ok for c in username)
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -42,6 +46,12 @@ def signup():
         email = request.form['email']
 
         error = None
+
+        if not is_username_valid(username):
+            error = 'Username can only contain a-z, A-Z, 0-9, and _'
+        
+        if len(username) > 25:
+            error = 'Username is too long'
 
         if users.find_one({'username': username}) != None:
             error = 'Username taken'
@@ -125,6 +135,8 @@ def edit():
             error = 'Invalid category'  
         if title == '':
             error = 'Cannot have empty title'
+        if content.strip() == '':
+            error = 'Article cannot be empty' 
         if users.find_one({'username': username}) == None:
             error = 'Please login before posting'
         
