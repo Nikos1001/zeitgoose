@@ -16,7 +16,7 @@ Misaka(app)
 app.secret_key = secrets['FLASK_SECRET']
 
 db_client = MongoClient(secrets['MONGO_URI'], server_api=ServerApi('1')) 
-db = db_client['news']
+db = db_client[secrets['DB_NAME']]
 try:
     db.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
