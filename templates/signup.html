@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Sign up</title>
+        <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <link href={{url_for('static', filename='login.css')}} rel="stylesheet">
+    </head>
+    <body>
+        <div id="left-panel">
+            <form method="post">
+                <h2>Sign Up</h2>
+                <input type="text" name="username" placeholder="Username" {% if username %} value="{{username}}" {% endif %}><br>
+                <input type="password" name="password" placeholder="Password" {% if password %} value="{{password}}" {% endif %}><br>
+                <input type="password" name="confirm_password" placeholder="Confirm Password"><br>
+                <input type="email" name="email" placeholder="Email (optional)" {% if email %} value="{{email}}" {% endif %}><br>
+                <p id="email-note">
+                    Your email will only be used for password resets
+                </p>
+                <input type="submit" value="Sign Up"><br>
+                {% if error %}
+                    <p>
+                        <strong id="error">{{ error }}</strong>
+                    </p>
+                {% endif %}
+            </form> 
+        </div>
+        <div class="bgimage"></div>
+    </body>
+</html>

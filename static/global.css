@@ -1,0 +1,64 @@
+
+body {
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+    font-size: 14px;
+    --light-1: #f6f4eb;
+    --light-2: #FFE5A1;
+    --dark-1: #413931; 
+    --dark-2: #2f2922;
+    --error: #d3857f;
+
+    font-size: 16px;
+
+    background-color: var(--light-1);
+}
+
+input[type="submit"], button {
+    background-color: var(--light-2);
+    border: none;
+    padding: 5px;
+    color: var(--dark-2);
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: hsl(from var(--light-2) h s calc(l - 5));
+}
+
+input[type="submit"]:active, button:active {
+    background-color: hsl(from var(--light-2) h s calc(l - 10));
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="url"], select, textarea {
+    background-color: var(--light-1);
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+    margin-bottom: 2px;
+    outline: none;
+    resize: none;
+    font-size: 16px;
+}
+
+select {
+    padding: 2px;
+}
+
+a {
+    text-decoration: underline;
+    color: #6d93b4;
+}
+
+.bgimage {
+    background-image: url("gooseflying.png");
+    opacity: 0.1;
+    filter: contrast(10000%) grayscale(100%);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#error {
+    color: var(--error);
+}

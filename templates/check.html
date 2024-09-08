@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Judgement Day</title>
+        <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <link href={{url_for('static', filename='article.css')}} rel="stylesheet">
+        <style>
+            form {
+                position: fixed;
+                left: 0;
+                top: calc(100vh - 100px);
+                height: 100px;
+                padding: 10px;
+                background-color: var(--dark-1);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="article">
+            <h1 id="title">{{title}}</h1>
+            <p id="subtitle">
+                {{category}} | Posted by {{author}} on {{date}}
+                {% if thumbnail %}
+                    <br>
+                    <a href="{{thumbnail}}">Thumbnail</a>
+                {% endif %}
+            </p><br>
+            {{ content.replace('<','&lt;')|markdown }}
+        </div>
+
+        <form method="post">
+            <input name="status" type="submit" value="approved">
+            <input name="status" type="submit" value="delete"><br>
+        </form>
+    </body>
+</html>

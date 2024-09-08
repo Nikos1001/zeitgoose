@@ -1,0 +1,203 @@
+<html>
+    <head>
+        <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <style>
+
+            #header {
+                background-color: var(--dark-1);
+                display: grid;
+                grid-template-areas: 
+                    "logo     title    login"
+                    "subtitle subtitle login";
+                color: var(--light-2);
+                padding: 20px;
+                grid-template-columns: min-content max-content auto; 
+                grid-template-rows: max-content auto;
+                column-gap: 20px;
+                box-shadow: inset rgba(0, 0, 0, 0.2) 0px -50px 50px;
+            }
+
+            #logo {
+                grid-area: logo;
+                width: 100px;
+                height: 100px;
+                background-image: url("{{url_for('static', filename='logo.png')}}");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            #title {
+                grid-area: title;
+                width: fit-content;
+            }
+
+            #title-text {
+                font-family: 'Times New Roman', Times, serif;
+                font-size: min(100px, 10vw);
+                user-select: none;
+            }
+
+            #subtitle {
+                font-family: 'Times New Roman', Times, serif;
+                font-size: min(20px, 2vw);
+                grid-area: subtitle;
+                user-select: none;
+                text-align: center;
+            }
+
+            #login {
+                grid-area: login;
+                text-align: right;
+            }
+
+            #login-content {
+                font-size: min(18px, 2vw);
+                float: right;
+                display: flex;
+                width: max-content;
+                flex-direction: column;
+                align-items: flex-end;
+                max-width: max(150px, 20vw);
+                text-overflow: clip;
+                overflow-wrap: break-word;
+            }
+
+            @media (max-width: 800px) {
+
+                #header {
+                    grid-template-areas: 
+                        "title    login"
+                        "subtitle login";
+                    grid-template-columns: auto min-content;
+                }
+
+                #logo {
+                    display: none;
+                }
+
+            }
+
+            #articles-container {
+                display: grid;
+                grid-template-areas: "a articles b";
+                grid-template-columns: 1fr min-content 5fr;
+            }
+
+            #articles {
+                grid-area: articles;
+                padding-bottom: 30px;
+            }
+
+            .article {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #EFEDE5;
+                border-radius: 10px;
+                min-width: 40vw;
+                display: grid;
+                grid-template-areas:
+                    "title thumbnail"
+                    "desc  thumbnail";
+                grid-template-columns: auto min-content;
+                grid-template-rows: min-content 1fr;
+                column-gap: 50px;
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                border: #c2c0b8 1px solid;
+            }
+
+            .article-title {
+                grid-area: title;
+                height: min-content;
+            }
+            
+            .article-title h1 {
+                margin: 0;
+                padding: 0;
+                height: min-content;
+            }
+
+            .article-description {
+                grid-area: desc;
+            }
+
+            .article-thumbnail {
+                grid-area: thumbnail;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .article-thumbnail img {
+                max-width: min(400px, 20vw);
+            }
+
+            @media (max-width: 800px) {
+                .article-thumbnail {
+                    display: none;
+                }
+
+                #articles-container {
+                    grid-template-columns: 1fr min-content 1fr;
+                }
+            }
+
+            #bg {
+                position: fixed;
+                left: 0;
+                top: 20vh;
+                width: 100vw;
+                height: 100vh;
+                z-index: -1;
+                background-size: cover;
+                background-position-x: 15%;
+                background-position-y: 10%;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo"></div>
+            <div id="title">
+                <div id="title-text">The Zeitgoose</div>
+            </div>
+            <div id="subtitle">Waterloo's Anonymous Student-Run Newspaper</div>
+            <div id="login">
+                <div id="login-content">
+                    {% if username %}
+                        <div><strong>Welcome back, {{username}}</strong></div>
+                        <div><a href="{{url_for('logout')}}">Log out</a></div>
+                        <div><a href="{{url_for('edit')}}">Post</a></div>
+                        {% if username == 'admin' %}
+                            <div><a href="{{url_for('check')}}">Check</a></div>
+                        {% endif %}
+                    {% else %}
+                        <div><strong>
+                            Have something to say?<br>
+                            Sign up and post it!
+                        </strong></div>
+                        <div><a href="{{url_for('signup')}}">Sign up</a></div>
+                        <div><a href="{{url_for('login')}}">Login</a></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="articles-container">
+            <div id="articles">
+                {% for article in articles %}
+                    <div class="article">
+                        <a class="article-title" href="{{url_for('article', id=article._id)}}"><h1> {{ article.title }} </h1></a>
+                        <p class="article-description"> {{ article.category }} | {{ article.author}} </p>
+                        {% if article.thumbnail %}
+                            <div class="article-thumbnail">
+                                <img src="{{article.thumbnail}}">
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="bg" class="bgimage"></div>
+    </body>
+</html>

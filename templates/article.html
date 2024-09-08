@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>
+            {{title}}
+        </title>
+        <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <link href={{url_for('static', filename='article.css')}} rel="stylesheet">
+    <head>
+    <body>
+        <div id="article">
+            <h1 id="title">{{title}}</h1>
+            <p id="subtitle">{{category}} | Posted by {{author}} on {{date}}</p><br>
+            <a href="{{url_for('home')}}">< Back to news</a>
+            {{ content.replace('<','&lt;')|markdown }}
+        </div>
+
+        {% if confirm_submit %}
+            <script>
+                if(localStorage.getItem('{{id}}') == null) {
+                    localStorage.setItem('{{id}}', 1);
+                    localStorage.removeItem('draftTitle');
+                    localStorage.removeItem('draftContent');
+                    localStorage.removeItem('draftThumbnail');
+                }
+            </script>
+        {% endif %}
+    </body>
+</html>

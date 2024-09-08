@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <title>Edit post</title>
+        <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <style>
+            body {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                min-height: 100vh;
+            }
+
+            #edit {
+                background-color: var(--dark-1);
+                padding: 30px;
+                color: var(--light-2);
+            }
+
+            textarea {
+                width: 100%;
+                overflow-y: scroll;
+                margin-bottom: 10px;
+                font-family: monospace;
+                max-height: 60vw; 
+                margin-top: 10px;
+            }
+
+            #title {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            #preview {
+                overflow-y: scroll;
+                overflow-x: hidden;
+                overflow-wrap: break-word;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 10px;
+            }
+
+            #preview-header {
+                display: grid;
+                grid-template-areas: "title thumbnail";
+                grid-template-columns: 1fr min-content;
+                max-height: 200px;
+            }
+
+            #preview-title {
+                grid-area: title;
+            }
+
+            #preview-thumbnail {
+                grid-area: thumbnail;
+                max-height: 200px;
+            }
+
+            #preview-content {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            code {
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+                white-space: pre-wrap;
+            }
+
+            #error {
+                padding-bottom: 10px;
+            }
+        </style>
+        <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+    </head>
+    <body>
+        <div id="edit">
+            <form method="post">
+                {% if error %}
+                    <div id="error">{{ error }}</div>
+                {% endif %}
+                <input id="title" type="text" placeholder="Title" name="title">
+                <label for="thumbnail">Thumbnail URL (optional):</label>
+                <input type="url" name="thumbnail" placeholder="http://thing.com/thing.png" id="thumbnail">
+                <textarea id="content" name="content" rows="20" placeholder="Your beautiful article
+You can use markdown to format your post"></textarea>
+                <label for="category">Category:</label>
+                <select name="category">
+                    {% for category in article_categories %}
+                        <option value="{{category}}">{{category}}</option>
+                    {% endfor %}
+                </select><br><br>
+                Before posting, please make sure your post follows <a href="{{url_for('guidelines')}}">our guidelines</a>.
+                TL;DR don't spam, be nice, no politics. All posts are manually reviewed by yours truly before 
+                they're published to the news feed <3<br><br> 
+                <input type="submit" value="Submit" id="submit">
+            </form>
+        </div>
+        <div id="preview">
+            <div id="preview-header">
+                <h1 id="preview-title"></h1>
+                <img id="preview-thumbnail">
+            </div>
+            <div id="preview-content"></div>
+        </div>
+
+        <script>
+            showdown.setOption('strikethrough', true);
+            showdown.setOption('tables', true);
+            showdown.setOption('tasklists', true);
+            showdown.setOption('smoothLivePreview', true);
+            showdown.setOption('simpleLineBreaks', true);
+            let converter = new showdown.Converter();
+
+            let title = document.getElementById('title');
+            let content = document.getElementById('content');
+            let thumbnail = document.getElementById('thumbnail');
+            let preview = document.getElementById('preview-content');
+            let previewTitle = document.getElementById('preview-title');
+            let previewImg = document.getElementById('preview-thumbnail');
+
+            title.value = localStorage.getItem('draftTitle');
+            thumbnail.value = localStorage.getItem('draftThumbnail');
+            content.value = localStorage.getItem('draftContent');
+            updatePreview();
+
+            function updatePreview() {
+                let previewHTML = converter.makeHtml(content.value);
+                preview.innerHTML = previewHTML; 
+                previewTitle.textContent = title.value;
+                previewImg.src = thumbnail.value;
+            }
+
+            function saveDraft() {
+                localStorage.setItem('draftTitle', title.value);
+                localStorage.setItem('draftThumbnail', thumbnail.value);
+                localStorage.setItem('draftContent', content.value);
+            }
+
+            title.addEventListener('input', (e) => {
+                saveDraft();
+                updatePreview();
+            });
+
+            thumbnail.addEventListener('input', (e) => {
+                saveDraft();
+                updatePreview();
+            });
+
+            content.addEventListener('input', (e) => {
+                saveDraft();
+                updatePreview();
+            });
+
+            window.onkeydown = (e) => {
+                if(e.target != content && e.keyCode == 13) {
+                    e.preventDefault();
+                }
+            };
+
+        </script>
+    </body>
+</html>

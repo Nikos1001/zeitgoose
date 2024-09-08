@@ -1,0 +1,23 @@
+<html></html>
+    <head>
+        <title>Login</title>
+        <link href={{url_for('static', filename='global.css')}} rel="stylesheet">
+        <link href={{url_for('static', filename='login.css')}} rel="stylesheet">
+    </head>
+    <body>
+        <div id="left-panel">
+            <form method="post">
+                <h2>Login</h2>
+                <input type="text" name="username" placeholder="Username" {% if username %} value="{{username}}" {% endif %}><br>
+                <input type="password" name="password" placeholder="Password" {% if password %} value="{{password}}" {% endif %}><br>
+                <input type="submit" value="Login"><br>
+                {% if error %}
+                    <p>
+                        <strong id="error">{{ error }}</strong>
+                    </p>
+                {% endif %}
+            </form> 
+        </div>
+        <div class="bgimage"></div>
+    </body>
+</html>

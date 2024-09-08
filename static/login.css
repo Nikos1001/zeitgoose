@@ -1,0 +1,21 @@
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: 100%;
+}
+
+#left-panel {
+    background-color: var(--dark-1);
+    color: var(--light-2);
+    min-width: 350px;
+    max-width: 350px;
+}
+
+form {
+    padding: 10px;
+}
+
+#email-note {
+    width: 20ch;
+}
