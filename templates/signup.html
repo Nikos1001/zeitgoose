@@ -6,7 +6,7 @@
         <link rel="icon" href="{{url_for('static', filename='logo.png')}}">
     </head>
     <body>
-        <div id="left-panel">
+        <div id="left-panel" class="card">
             <form method="post">
                 <h2>Sign Up</h2>
                 <input type="text" name="username" placeholder="Username" {% if username %} value="{{username}}" {% endif %}><br>

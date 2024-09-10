@@ -54,7 +54,7 @@
             }
 
             #login-content {
-                font-size: min(18px, 2vw);
+                font-size: 16px;
                 float: right;
                 display: flex;
                 width: max-content;
@@ -65,7 +65,7 @@
                 overflow-wrap: break-word;
             }
 
-            @media (max-width: 800px) {
+            @media (max-width: 1000px) {
 
                 #header {
                     grid-template-areas: 
@@ -93,9 +93,6 @@
 
             .article {
                 margin-top: 20px;
-                padding: 15px;
-                background-color: #EFEDE5;
-                border-radius: 10px;
                 min-width: 40vw;
                 display: grid;
                 grid-template-areas:
@@ -104,8 +101,6 @@
                 grid-template-columns: auto min-content;
                 grid-template-rows: min-content 1fr;
                 column-gap: 50px;
-                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-                border: #c2c0b8 1px solid;
             }
 
             .article-title {
@@ -134,13 +129,13 @@
                 max-width: min(400px, 20vw);
             }
 
-            @media (max-width: 800px) {
+            @media (max-width: 1000px) {
                 .article-thumbnail {
                     display: none;
                 }
 
                 #articles-container {
-                    grid-template-columns: 1fr min-content 1fr;
+                    grid-template-columns: 50px 1fr 50px;
                 }
             }
 
@@ -188,7 +183,7 @@
         <div id="articles-container">
             <div id="articles">
                 {% for article in articles %}
-                    <div class="article">
+                    <div class="article card">
                         <a class="article-title" href="{{url_for('article', id=article._id)}}"><h1> {{ article.title }} </h1></a>
                         <p class="article-description"> {{ article.category }} | {{ article.author}} </p>
                         {% if article.thumbnail %}
